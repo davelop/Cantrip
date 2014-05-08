@@ -6,61 +6,9 @@ var cors = require('cors');
 
 var io = require("socket.io");
 
-//Set up express
-var app = express();
-app.configure(function() {
-	app.use(express.json());
-	app.use(function(err, req, res, next) {
-		res.status(400);
-		res.send({
-			"error": "Invalid JSON supplied in request body."
-		});
-		next(err);
-	});
-	app.use(express.urlencoded());
-	app.use(express.multipart());
-	app.use(cors());
-});
-
-var validations = {};
-validations.string = require("./types/string");
-validations.boolean = require("./types/boolean");
-validations.number = require("./types/number");
-
-//Set up a get hook on all paths
-app.get('*', function(request, response) {
-	Cantrip.get(request, response);
-});
-
-app.post("*", function(request, response) {
-	if (Cantrip.validate(request, response))
-		Cantrip.post(request, response);
-});
-
-app.delete("*", function(request, response) {
-	Cantrip.delete(request, response);
-});
-
-app.put("*", function(request, response) {
-	if (Cantrip.validate(request, response))
-		Cantrip.put(request, response);
-});
-
-//The object that handles requests
-function Request(request, response) {
-	this.request = request;
-	this.response = response;
-	this.path = this.getPath();
-};
-
-Request.prototype.getPath = function() {
-	return _.filter(this.request.route.params[0].split("/"), function(string) {
-		return string !== "";
-	});
-};
-
 
 var Cantrip = {
+	role : "user",
 	options: {
 		port: process.env.PORT || 3000,
 		saveEvery: 1,
@@ -90,8 +38,31 @@ var Cantrip = {
 		});
 		this.data = JSON.parse(this.data);
 
+		console.log(this.data._acl);
+
+		app.use(Cantrip.acl);
+
 		//Set up the server
 		this.app = app;
+
+		//Set up a get hook on all paths
+		app.get('*', function(request, response) {
+			Cantrip.get(request, response);
+		});
+
+		app.post("*", function(request, response) {
+			if (Cantrip.validate(request, response))
+				Cantrip.post(request, response);
+		});
+
+		app.delete("*", function(request, response) {
+			Cantrip.delete(request, response);
+		});
+
+		app.put("*", function(request, response) {
+			if (Cantrip.validate(request, response))
+				Cantrip.put(request, response);
+		});
 
 		//Start the server
 		var server = this.app.listen(this.options.port);
@@ -116,6 +87,7 @@ var Cantrip = {
 		var route = this.getContents();
 		//Loop through the data by the given paths
 		for (var i = 0; i < path.length; i++) {
+
 			var temp = route[path[i]];
 			//If we found the given key, assign the route object to its value
 			if (temp !== undefined) {
@@ -435,7 +407,63 @@ var Cantrip = {
 				}
 			}
 		}
+	},
+	acl : function(req, res, next){
+		req.currentRole = "admin";
+		var acl = Cantrip.data._acl;
+		var url = req.path;
+
+		for(var route in acl){
+			var routeMatcher = new RegExp(route.replace(/:[^\s/]+/g, '([\\w-]+)'));
+			if(acl[route][req.method]){
+				console.log(acl[route][req.method],route);
+				if(_.indexOf(acl[route][req.method], req.currentRole) !== -1){
+					continue;
+				} else {
+					res.status(401).send({error : "Unauthorized"});
+					return;
+				}
+			}
+		}
+		next();
 	}
 }
+
+//Set up express
+var app = express();
+app.configure(function() {
+	app.use(express.json());
+	app.use(function(err, req, res, next) {
+		res.status(400);
+		res.send({
+			"error": "Invalid JSON supplied in request body."
+		});
+		next(err);
+	});
+	app.use(express.urlencoded());
+	app.use(express.multipart());
+	app.use(cors());
+});
+
+
+var validations = {};
+validations.string = require("./types/string");
+validations.boolean = require("./types/boolean");
+validations.number = require("./types/number");
+
+
+
+//The object that handles requests
+function Request(request, response) {
+	this.request = request;
+	this.response = response;
+	this.path = this.getPath();
+};
+
+Request.prototype.getPath = function() {
+	return _.filter(this.request.route.params[0].split("/"), function(string) {
+		return string !== "";
+	});
+};
 
 module.exports = Cantrip;
