@@ -25,7 +25,7 @@ app.configure(function() {
 
 var Cantrip = {
 	options: {
-		port: process.env.PORT || 3000,
+		port: process.env.OPENSHIFT_NODEJS_PORT || 8080, //process.env.PORT || 3000,
 		saveEvery: 1,
 		file: "data.json"
 	},

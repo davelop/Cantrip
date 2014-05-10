@@ -9,7 +9,7 @@ var Cantrip = require("./index.js");
  * Port to run the server on
  * @type {Number}
  */
-Cantrip.options.port = process.env.PORT || 3000;
+Cantrip.options.port = process.env.OPENSHIFT_NODEJS_PORT || 8080; //process.env.PORT || 3000;
 
 /**
  * Backup the memory to the JSON file every Nth POST/PUT/DELETE request.
