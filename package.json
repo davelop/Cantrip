@@ -7,18 +7,12 @@
     "node": ">= 0.6.0",
     "npm": ">= 1.0.0"
   },
-  "dependencies": {
-    "MD5": "~1.2.1",
-    "express": "~3.5.1",
-    "underscore": "~1.6.0",
-    "cors": "^2.2.0",
-    "socket.io": "~0.9.16"
+  "engines": {
+    "node": ">= 0.6.0",
+    "npm": ">= 1.0.0"
   },
+  "dependencies": {},
   "devDependencies": {},
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node server.js"
-  },
   "repository": {
     "type": "git",
     "url": "https://github.com/petergombos/cantrip.git"
