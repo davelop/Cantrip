@@ -11,7 +11,13 @@
     "node": ">= 0.6.0",
     "npm": ">= 1.0.0"
   },
-  "dependencies": {},
+  "dependencies": {
+    "MD5": "~1.2.1",
+    "express": "~3.5.1",
+    "underscore": "~1.6.0",
+    "cors": "2.3.1",
+    "socket.io": "~0.9.16"
+  },
   "devDependencies": {},
   "repository": {
     "type": "git",

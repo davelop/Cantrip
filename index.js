@@ -25,7 +25,8 @@ app.configure(function() {
 
 var Cantrip = {
 	options: {
-		port: process.env.OPENSHIFT_NODEJS_PORT || 8080, //process.env.PORT || 3000,
+		port: process.env.PORT || 3000,
+		ip: "127.0.0.1",
 		saveEvery: 1,
 		file: "data.json"
 	},
@@ -79,7 +80,7 @@ var Cantrip = {
 		});
 
 		//Start the server
-		var server = this.app.listen(this.options.port);
+		var server = this.app.listen(this.options.port,this.options.ip);
 
 		//Start socket io service too
 		this.io = io.listen(server);

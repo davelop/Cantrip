@@ -10,6 +10,11 @@ var Cantrip = require("./index.js");
  * @type {Number}
  */
 Cantrip.options.port = process.env.OPENSHIFT_NODEJS_PORT || 8080; //process.env.PORT || 3000;
+Cantrip.options.ip = process.env.OPENSHIFT_NODEJS_IP;
+
+if (typeof Cantrip.options.ip === "undefined") {
+    Cantrip.options.ip = "127.0.0.1";
+};
 
 /**
  * Backup the memory to the JSON file every Nth POST/PUT/DELETE request.
