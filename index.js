@@ -193,7 +193,7 @@ var Cantrip = {
 			//Push it to the target array
 			target.push(req.body);
 			//Emit socketio event
-			this.io.sockets.emit("POST:/" + req.path, req.body);
+			this.io.sockets.emit("POST", {"route":req.path, "data":req.body});
 			//Send the response
 			res.send(req.body);
 			//Start saving the data
@@ -214,7 +214,7 @@ var Cantrip = {
 			//Send the response
 			res.send(target);
 			//Emit socketio event
-			this.io.sockets.emit("PUT:/" + req.path, target);
+			this.io.sockets.emit("PUT", {"route":req.path, "data":req.body});
 			//Start saving the data
 			this.saveData();
 		} else {
@@ -254,7 +254,7 @@ var Cantrip = {
 		//Send the response
 		res.send(parent);
 		//Emit socketio event
-		this.io.sockets.emit("DELETE:/" + req.path, parent);
+		this.io.sockets.emit("DELETE", {"route":req.path, "data":""});
 		//Start saving the data
 		this.saveData();
 	},
