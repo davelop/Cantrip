@@ -214,7 +214,7 @@ var Cantrip = {
 			//Send the response
 			res.send(target);
 			//Emit socketio event
-			this.io.sockets.emit("PUT", {"route":req.path+Object.keys(target), "data":target});
+			this.io.sockets.emit("PUT", {"route":req.path, "data":req.body});
 			//Start saving the data
 			this.saveData();
 		} else {
