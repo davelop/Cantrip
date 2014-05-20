@@ -254,7 +254,7 @@ var Cantrip = {
 		//Send the response
 		res.send(parent);
 		//Emit socketio event
-		this.io.sockets.emit("DELETE", {"route":req.path, "data":""});
+		this.io.sockets.emit("DELETE", {"route":req.path});
 		//Start saving the data
 		this.saveData();
 	},
