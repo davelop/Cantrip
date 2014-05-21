@@ -7,10 +7,6 @@
     "node": ">= 0.6.0",
     "npm": ">= 1.0.0"
   },
-  "engines": {
-    "node": ">= 0.6.0",
-    "npm": ">= 1.0.0"
-  },
   "dependencies": {
     "MD5": "~1.2.1",
     "express": "~3.5.1",
@@ -21,7 +17,7 @@
   "devDependencies": {},
   "repository": {
     "type": "git",
-    "url": "https://github.com/petergombos/cantrip.git"
+    "url": "https://github.com/davelop/Cantrip.git"
   },
   "keywords": [
     "rest",
@@ -33,7 +29,7 @@
   "bugs": {
     "url": "https://github.com/petergombos/cantrip/issues"
   },
-  "homepage": "https://github.com/petergombos/cantrip",
+  "homepage": "https://github.com/davelop/Cantrip",
   "bundleDependencies": [],
   "private": true
 }
