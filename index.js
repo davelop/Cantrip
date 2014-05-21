@@ -258,7 +258,7 @@ var Cantrip = {
 		//Start saving the data
 		this.saveData();
 	},
-	//Recursively add _ids to all objects within an array (but not arrays) within the specified object.
+	//Recursively add _ids to all objects within an array (but not arrays) within the specified object. clean
 	addMetadataToModels: function(obj) {
 		//Loop through the objects keys
 		for (var key in obj) {
